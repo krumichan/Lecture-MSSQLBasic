@@ -45,7 +45,9 @@ SELECT	*
 FROM	players AS p
 		INNER JOIN salaries AS s
 		ON p.playerID = s.playerID
-		OPTION(LOOP JOIN);
+		OPTION(LOOP JOIN); -- 확인해보면 외부(salaries)에 내부(players)이다(DB가 자체 판단하여 역으로 바꾼 것).
+--		OPTION(FORCE ORDER, LOOP JOIN); -- FORCE ORDER는 DB의 자체 판단으로 역으로 바꾸는걸 금지 시킨다.
+										-- 즉, 외부(players)에 내부(salaries)로 수행한다.
 
 
 -- C# 적으로 설명.
@@ -114,3 +116,10 @@ FROM	players AS p
 -- 높은 효율을 보여주지만,
 -- 그렇지 않으면 끔찍한 효율을 보여준다.
 --
+
+
+-- 오늘의 결론.
+-- Nested Loop 특징.
+--  : 먼저 접근한 OUTER TABLE의 행을 순회하며 → INNER TABLE에 RANDOM으로 접근한다.
+-- 1. INNER TABLE에 INDEX가 없으면 효율이 매우 떨어진다. (0 Dictionary: O(N), Non-Dictionary: O(N^2) )
+-- 2. 부분 범위(갯수 제한)를 처리하는 것에 효율이 매우 좋다. ( ex. TOP 5 등 )
