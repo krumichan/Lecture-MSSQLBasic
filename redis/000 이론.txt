@@ -1,0 +1,71 @@
+1) 문자열
+
+set [key] [value]		: 하나의 값 생성.
+get [key]				: 하나의 값 습득.
+append				: 문자 추가.
+incr					: +1 연산
+decr				: -1 연산
+mset				: 여러 값을 동시 생성.
+mget				: 여러 값을 동시 호출.
+
+ttl [key]				: 유효 시간 확인. ( -1 : 무기한 )
+expire [key] [seconds]	: 파기 시간 설정.
+
+
+
+
+------
+ID [] ( LOGIN 수행 )   →   	1. WebServer() 				-- 인증 통과!
+						2. Redis[ jongseon:qwer4321 ] 	-- session 생성!
+						GameServer()
+					⇒ RDB에서 session을 설정할 경우, 파기 시간을 정할 수 없다. ( 이를 위해 Redis를 사용 )
+					⇒ WebServer와 GameServer는 Redis를 통해 통신을 수행.
+
+
+
+
+------
+SET ( 중복을 허용하지 않는 집합 )
+합집합  교집합  차집합
+
+sadd	: 추가.
+sinter	: 조회.
+srem	: 삭제.
+
+
+
+
+------
+정렬된 SET( SET + SORTING )
+
+zadd		: 추가.
+zrange		: 범위 조회.
+zrevrange	: 역순 조회.
+
+사용 예제)  ranking system.
+
+
+
+
+------
+LIST
+
+lpush	: left push
+rpush	: right push
+lrange	: left lange
+lpop	: left pop
+rpop	: right pop
+
+사용 예제) STACK, QUEUE
+
+
+
+
+------
+HASH
+
+hset		: 추가.
+hget		: 조회.
+hlen		: 길이.
+hdel		: 삭제.
+hgetall		: 전체 조회.
